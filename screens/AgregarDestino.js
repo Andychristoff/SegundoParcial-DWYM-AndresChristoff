@@ -3,25 +3,25 @@ import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { Dimensions } from 'react-native';
 
 
-export const AddPlanet = () => {
-  const [newPlanet, setNewPlanet] = useState({
+export const AgregarDestino = () => {
+  const [nuevoDestino, setNuevoDestino] = useState({
     name: '',
     description: '',
-    moons: [],
+    difficulty: null,
   });
 
   const handleAdd = async () => {
     try {
-      await fetch('http://192.168.248.179:8000/planets', {
+      await fetch('http://161.35.143.238:8000/achristoff', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newPlanet),
+        body: JSON.stringify(nuevoDestino),
       });
-      setNewPlanet({ name: '', description: '', moons: [] });
+      setNuevoDestino({ name: '', description: '', difficulty: null});
     } catch (error) {
-      console.error('Error adding planet:', error);
+      console.error('Error adding destino:', error);
     }
   };
 
@@ -29,18 +29,24 @@ export const AddPlanet = () => {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Planet Name"
-        value={newPlanet.name}
-        onChangeText={(text) => setNewPlanet({...newPlanet, name: text})}
+        placeholder="Nombre destino"
+        value={nuevoDestino.name}
+        onChangeText={(text) => setNuevoDestino({...nuevoDestino, name: text})}
       />
       <TextInput
         style={styles.input}
-        placeholder="Description"
-        value={newPlanet.description}
-        onChangeText={(text) => setNewPlanet({...newPlanet, description: text})}
+        placeholder="Descripcion"
+        value={nuevoDestino.description}
+        onChangeText={(text) => setNuevoDestino({...nuevoDestino, description: text})}
         multiline
       />
-      <Button title="Add Planet" onPress={handleAdd} />
+      <TextInput
+        style={styles.input}
+        placeholder="Dificultad de destino"
+        value={nuevoDestino.difficulty}
+        onChangeText={(text) => setNuevoDestino({...nuevoDestino, difficulty: text})}
+      />
+      <Button title="Agregar Destino" onPress={handleAdd} />
     </View>
   );
 };

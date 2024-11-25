@@ -27,17 +27,6 @@
       "image": "https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg"
     },
     {
-      "id": "4",
-      "name": "Mars",
-      "description": "The fourth planet from the Sun, often called the 'Red Planet'.",
-      "moons": 2,
-      "moon_names": [
-        "Phobos",
-        "Deimos"
-      ],
-      "image": "https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg"
-    },
-    {
       "id": "5",
       "name": "Jupiter",
       "description": "The largest planet in the Solar System, a gas giant with a famous Great Red Spot. Este planeta está demas.",

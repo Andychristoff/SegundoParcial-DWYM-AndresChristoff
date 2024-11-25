@@ -2,65 +2,54 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Dimensions } from 'react-native';
 
-export const PlanetDetails = ({ route }) => {
-  const { planetId } = route.params;
-  const [planet, setPlanet] = useState(null);
+export const DetallesDestino = ({ route }) => {
+  const { destinoID } = route.params;
+  const [destino, setDestino] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedPlanet, setEditedPlanet] = useState(null);
+  const [destinoEditado, setdestinoEditado] = useState(null);
 
   useEffect(() => {
-    fetchPlanetDetails();
-  }, [planetId]);
+    fetchDetallesDestino();
+    console.log(destinoID)
+  }, [destinoID]);
 
-  const fetchPlanetDetails = async () => {
+  const fetchDetallesDestino = async () => {
     try {
-      const response = await fetch(`http://192.168.248.179:8000/planets/${planetId}`);
+      const response = await fetch(`http://161.35.143.238:8000/achristoff/${destinoID}`);
       const data = await response.json();
-      setPlanet(data);
-      setEditedPlanet(data);
+      setDestino(data);
+      setdestinoEditado(data);
     } catch (error) {
-      console.error('Error fetching planet details:', error);
+      console.error('Error fetching destino details:', error);
     }
   };
 
   const handleUpdate = async () => {
     try {
-      await fetch(`http://192.168.248.179:8000/planets/${planetId}`, {
+      await fetch(`http://161.35.143.238:8000/achristoff/${destinoID}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(editedPlanet),
+        body: JSON.stringify(destinoEditado),
       });
-      fetchPlanetDetails();
+      fetchDetallesDestino();
       setIsEditing(false);
     } catch (error) {
-      console.error('Error updating planet:', error);
+      console.error('Error updating destino:', error);
     }
   };
 
-  if (!planet) return <Text>Loading...</Text>;
+  if (!destino) return <Text>Loading...</Text>;
 
   return (
     <View style={styles.centrado}>
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {!isEditing ? (
             <>
-            <Text style={styles.title}>{planet.name}</Text>
-
-            <Image
-                source={{
-                uri: `${planet.image}`
-                }}
-                style={styles.image}
-                />
-
-            <Text style={styles.description}>{planet.description}</Text>
-            <Text style={styles.moons}>Moons: {planet.moon_names.length}</Text>
-            <Text>Moon names:</Text>
-            {planet.moon_names?.map((moon, index) => (
-                <Text key={index} style={styles.moonstyle}>{moon}</Text>
-            ))}
+            <Text style={styles.title}>{destino.name}</Text>
+            <Text style={styles.description}>{destino.description}</Text>
+            <Text style={{backgroundColor: destino.difficulty === 'easy' ? 'green' : destino.difficulty === 'medium' ? 'yellow' : 'red', margin:5}}>Dificultad de destino: {destino.difficulty}</Text>
             <View style={styles.buttonEdit}>
             <Button 
                 title="Edit" 
@@ -73,14 +62,19 @@ export const PlanetDetails = ({ route }) => {
             <>
             <TextInput
                 style={styles.input}
-                value={editedPlanet.name}
-                onChangeText={(text) => setEditedPlanet({...editedPlanet, name: text})}
+                value={destinoEditado.name}
+                onChangeText={(text) => setdestinoEditado({...destinoEditado, name: text})}
             />
             <TextInput
                 style={styles.input}
-                value={editedPlanet.description}
-                onChangeText={(text) => setEditedPlanet({...editedPlanet, description: text})}
+                value={destinoEditado.description}
+                onChangeText={(text) => setdestinoEditado({...destinoEditado, description: text})}
                 multiline
+            />
+            <TextInput
+                style={styles.input}
+                value={destinoEditado.difficulty}
+                onChangeText={(text) => setdestinoEditado({...destinoEditado, difficulty: text})}
             />
             <Button title="Save" onPress={handleUpdate} />
             <Button title="Cancel" onPress={() => setIsEditing(false)} />
@@ -106,10 +100,10 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: 10
     },
-    planetItem: {
+    planetplanet: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center',
+      alignplanets: 'center',
       padding: 15,
       borderBottomWidth: 1,
       borderBottomColor: '#ccc',
